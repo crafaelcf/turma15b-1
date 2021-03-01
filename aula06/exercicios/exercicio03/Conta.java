@@ -28,6 +28,10 @@ public abstract class Conta {
         return saldo;
     }
 
+    public int getNumero() {
+        return numero;
+    }
+    
     @Override
     public String toString() {
         return numero + ": " + saldo;
