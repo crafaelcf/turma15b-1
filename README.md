@@ -11,3 +11,7 @@ https://learngitbranching.js.org/
 
 ### Git HowTo
 https://githowto.com/pt-BR/
+
+### JPA Query Methods
+
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
