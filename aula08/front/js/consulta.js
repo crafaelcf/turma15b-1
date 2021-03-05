@@ -44,11 +44,17 @@ function validaResposta(resultado) {
 }
 
 function exibirDados(compras) {
-    console.log(compras)
-    let tabela = 'Descrição - valor - data <br>'
+    let tabela = '<table> <tr> <th>Descrição</th> <th>valor</th> <th>data</th> </tr>'
 
     for (let index = 0; index < compras.length; index++) {
-        tabela += compras[index].descricao + '-' + compras[index].valor + '-' + compras[index].data + '<br>' 
+        let data = new Date(compras[index].data) // transforma o texto em um obejto Date
+        let dataFormatada = data.toLocaleDateString("pt-BR");
+        // tabela += '<tr> <td>' + compras[index].descricao + '</td><td>' + compras[index].valor + '</td><td>' + compras[index].data  + '</td> </tr>'
+        tabela += `<tr><td> ${compras[index].descricao} </td><td> ${compras[index].valor} </td><td> ${dataFormatada} </td></tr>`
     }
+
+    tabela += '</table>'
+    
     document.getElementById("saida").innerHTML = tabela 
 }
+
