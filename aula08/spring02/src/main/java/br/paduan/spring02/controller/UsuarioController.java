@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.paduan.spring02.dto.UsuarioDTO;
 import br.paduan.spring02.model.Usuario;
 import br.paduan.spring02.repository.UsuarioRepo;
 
@@ -24,11 +25,12 @@ public class UsuarioController {
     private UsuarioRepo repo;
 
     @GetMapping("/id/{id}")  // {id} é o nome da variável
-    public ResponseEntity<Usuario> obterUsuarioPorId(@PathVariable int id) {
+    public ResponseEntity<UsuarioDTO> obterUsuarioPorId(@PathVariable int id) {
         Usuario usuarioEncontrado = repo.findById(id).orElse(null); //findById busca pela chave primaria
 
         if(usuarioEncontrado != null) {
-            return ResponseEntity.ok(usuarioEncontrado); // ok = 200
+            UsuarioDTO userDTO = new UsuarioDTO(usuarioEncontrado);
+            return ResponseEntity.ok(userDTO); // ok = 200
         }
 
         return ResponseEntity.notFound().build(); //notFound = 404
