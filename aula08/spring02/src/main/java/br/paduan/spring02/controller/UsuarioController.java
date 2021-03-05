@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.paduan.spring02.dto.UsuarioDTO;
+import br.paduan.spring02.model.Compra;
 import br.paduan.spring02.model.Usuario;
 import br.paduan.spring02.repository.UsuarioRepo;
 
@@ -36,6 +37,21 @@ public class UsuarioController {
         return ResponseEntity.notFound().build(); //notFound = 404
     }
 
+    @GetMapping("/compras/{id}")  // {id} é o nome da variável
+    public ResponseEntity<List<Compra>> obterComprasDoUsuarioPorId(@PathVariable int id) {
+        Usuario usuarioEncontrado = repo.findById(id).orElse(null); //findById busca pela chave primaria
+
+        if(usuarioEncontrado != null) {
+            List<Compra> compras = usuarioEncontrado.getCompra();
+            for (Compra compra : compras) {
+                compra.setUsuario(null);
+            }
+            return ResponseEntity.ok(compras); // ok = 200
+        }
+
+        return ResponseEntity.notFound().build(); //notFound = 404
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         List<Usuario> lista = (List<Usuario>) repo.findAll(); //  findAll = listar todos
@@ -50,6 +66,19 @@ public class UsuarioController {
         if(userFound != null) {
             userFound.setSenha("********");
             return ResponseEntity.ok(userFound);
+        }
+        return ResponseEntity.status(404).build(); //notFound
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDTO> login(@RequestBody Usuario user) {
+        Usuario userFound = repo.findByEmailOrCpf(user.getEmail(), user.getCpf());
+
+        if(userFound != null) {
+            if(user.getSenha().equals(userFound.getSenha())) {
+                UsuarioDTO userDTO = new UsuarioDTO(userFound);
+                return ResponseEntity.ok(userDTO);
+            }
         }
         return ResponseEntity.status(404).build(); //notFound
     }

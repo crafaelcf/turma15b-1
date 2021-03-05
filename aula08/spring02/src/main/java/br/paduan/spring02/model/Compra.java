@@ -1,5 +1,7 @@
 package br.paduan.spring02.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,9 @@ public class Compra {
     
     @Column(name = "valor", nullable = false)
     private double valor;
+
+    @Column(name = "data")
+    private LocalDate data;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
@@ -61,6 +66,14 @@ public class Compra {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     
